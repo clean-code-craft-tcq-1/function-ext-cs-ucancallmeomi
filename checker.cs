@@ -1,38 +1,66 @@
 using System;
 using System.Diagnostics;
+using System.Linq;
 
-class Checker
+namespace BatteryManagementSystem
 {
-    static bool batteryIsOk(float temperature, float soc, float chargeRate) {
-        if(temperature < 0 || temperature > 45) {
-            Console.WriteLine("Temperature is out of range!");
-            return false;
-        } else if(soc < 20 || soc > 80) {
-            Console.WriteLine("State of Charge is out of range!");
-            return false;
-        } else if(chargeRate > 0.8) {
-            Console.WriteLine("Charge Rate is out of range!");
-            return false;
-        }
-        return true;
-    }
+    public class Checker
+    {
+        public static bool isLanguageGerman = false;
 
-    static void ExpectTrue(bool expression) {
-        if(!expression) {
-            Console.WriteLine("Expected true, but got false");
-            Environment.Exit(1);
+        public static float temparatureMaxLimit = 45;
+        public static float temparatureMinLimit = 0;
+        public static float socMaxLimit = 20;
+        public static float socMinLimit = 80;
+        public static float chargeRateMaxLimit = 0.8f;
+        public static float chargeRateMinLimit = 0.3f;
+
+        public static void isBatteryOk(string temparature, float soc, float chargeRate)
+        {
+            string temparatureValue = new string(temparature.Where(x => Char.IsDigit(x)).ToArray());
+            float temparaturValue = float.Parse(temparatureValue);
+            if (temparature.Contains("F"))
+             temparaturValue = convertFahrenheitToCelsius(temparaturValue);
+
+            checkTemparatureRange(temparaturValue);
+            checkSOCRange(soc);
+            checkChargeRate(chargeRate);
         }
-    }
-    static void ExpectFalse(bool expression) {
-        if(expression) {
-            Console.WriteLine("Expected false, but got true");
-            Environment.Exit(1);
+
+        public static void checkTemparatureRange(float temparature)
+        {
+            BatteryThresholdCheck.checkValueLimits("Temparature", temparature, temparatureMaxLimit, temparatureMinLimit);
         }
-    }
-    static int Main() {
-        ExpectTrue(batteryIsOk(25, 70, 0.7f));
-        ExpectFalse(batteryIsOk(50, 85, 0.0f));
-        Console.WriteLine("All ok");
-        return 0;
+
+        public static void checkSOCRange(float soc)
+        {
+            BatteryThresholdCheck.checkValueLimits("SOC", soc, socMaxLimit, socMinLimit);
+        }
+
+        public static void checkChargeRate(float ChargeRate)
+        {
+            BatteryThresholdCheck.checkValueLimits("ChargeRate", ChargeRate, chargeRateMaxLimit, chargeRateMinLimit);
+        }
+
+
+        public static float convertFahrenheitToCelsius(float temparatureinFahrenheit)
+        {
+            float temparatureinCelsius;
+
+            return temparatureinCelsius = (temparatureinFahrenheit - 32) * 5 / 9;
+
+        }
+
+        static int Main()
+        {
+            isLanguageGerman = true;
+
+            isBatteryOk("25C", 70, 0.7f);
+            isBatteryOk("122F", 85, 0.0f);
+            isBatteryOk("-50C", 65, 0.2f);
+            isBatteryOk("104F", 50, 0.5f);
+            Console.WriteLine("All ok");
+            return 0;
+        }
     }
 }
