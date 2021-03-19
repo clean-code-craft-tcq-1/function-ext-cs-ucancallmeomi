@@ -19,7 +19,7 @@ namespace BatteryManagementSystem
             _reportBreaches = _report;
         }
 
-        public static List<KeyValuePair<string, string>> checkValueLimits(string factor, float factorCurrentValue, float maxThreshold, float minThreshold)
+        public static void checkValueLimits(string factor, float factorCurrentValue, float maxThreshold, float minThreshold)
         {
             if (factorCurrentValue > maxThreshold)
             {
@@ -31,15 +31,8 @@ namespace BatteryManagementSystem
                 breachList.Add(new KeyValuePair<string, string>(factor, "Low"));
                 isBatteryBreached = true;
             }
-
-            return breachList;
         }
-
-        public void Display()
-        {
-            _reportBreaches.DisplayBreachLevels(breachList);
-        }
-
+               
         public void isBatteryOk(string temparature, float soc, float chargeRate)
         {
             float temparaturValue = TemparatureCalculator.TemparatureValue(temparature);
@@ -61,6 +54,11 @@ namespace BatteryManagementSystem
         public static void checkChargeRate(float ChargeRate)
         {
             BatteryThresholdCheck.checkValueLimits("ChargeRate", ChargeRate, FactorLimits.chargeRateMaxLimit, FactorLimits.chargeRateMinLimit);
+        }
+
+        public void Display()
+        {
+            _reportBreaches.DisplayBreachLevels(breachList);
         }
     }
 }
