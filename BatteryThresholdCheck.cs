@@ -1,15 +1,10 @@
-<<<<<<< HEAD
 ﻿using System;
-=======
-using System;
->>>>>>> 97a441f828c60a25831f258feb614ec4c5bd76ca
 using System.Collections.Generic;
 
 namespace BatteryManagementSystem
 {
     public class BatteryThresholdCheck
     {
-<<<<<<< HEAD
         public static List<KeyValuePair<string, string>> breachList = new List<KeyValuePair<string, string>>();
         public static bool isBatteryBreached = false;
 
@@ -40,37 +35,17 @@ namespace BatteryManagementSystem
             return breachList;
         }
 
-        public void Display(List<KeyValuePair<string, string>> breachList)
+        public void Display()
         {
             _reportBreaches.DisplayBreachLevels(breachList);
-=======
-
-        public static void checkValueLimits(string factor, float factorCurrentValue, float maxThreshold, float minThreshold)
-        {
-            if (factorCurrentValue > maxThreshold)
-                displayBreachLevel(factor, maxThreshold, minThreshold, "High");
-            else if (factorCurrentValue < minThreshold)
-                displayBreachLevel(factor, maxThreshold, minThreshold, "Low");
->>>>>>> 97a441f828c60a25831f258feb614ec4c5bd76ca
         }
 
         public void isBatteryOk(string temparature, float soc, float chargeRate)
         {
-<<<<<<< HEAD
             float temparaturValue = TemparatureCalculator.TemparatureValue(temparature);
             checkTemparatureRange(temparaturValue);
             checkSOCRange(soc);
             checkChargeRate(chargeRate);
-=======
-            Dictionary<string, string> breachValues = new Dictionary<string, string>();
-            breachValues.Add("High", "Hoch");
-            breachValues.Add("Low", "Niedrig");
-
-            if (!Checker.isLanguageGerman)
-                Console.WriteLine("{0} breached, level {1}. Range is {2} - {3}.", factor, breachPoint, minThreshold, maxThreshold);
-            else
-                Console.WriteLine("{0} verletzt, Niveau {1}. Reichweite is {2} - {3}.", factor, breachValues[breachPoint], minThreshold, maxThreshold);
->>>>>>> 97a441f828c60a25831f258feb614ec4c5bd76ca
         }
 
         public static void checkTemparatureRange(float temparature)
